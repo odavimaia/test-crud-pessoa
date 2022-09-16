@@ -7,7 +7,7 @@ update: alterar um usuario;
 destroy: deletar usuario;
 */
 import User from '../models/User'
-import * as Yup from 'yup'
+import UserSchema from '../schemas/UserSchema'
 
 class UserController {
 
@@ -20,22 +20,15 @@ class UserController {
   }
 
   async store(req, res) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      cpf: Yup.string().required(),
-      birthDate: Yup.date().required()
-    })
-    const { name, cpf, birthDate } = req.body
+    const { name, cpf, birthday } = req.body
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: "Preencha todos os campos!" })
-    } else if (cpf.length != 11) {
-      return res.status(400).json({ error: "Cpf inválido!" })
+    if (!(await UserSchema.isValid(req.body))) {
+      return res.status(400).send({ message: 'Preencha todos os campos!'})
     }
 
     let user = await User.findOne({ cpf })
     if (!user) {
-      user = await User.create({ name, cpf, birthDate })
+      user = await User.create({ name, cpf, birthday })
     }
 
     return res.status(200).json({ message: "Usuário cadastrado com sucesso!" })

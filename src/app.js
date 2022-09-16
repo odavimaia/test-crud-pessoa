@@ -7,20 +7,20 @@ class App {
   constructor() {
     this.server = express()
 
-    mongoose.connect(, {
+    mongoose.connect('sua chave de acesso ao mongoDB aqui', {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
-    
+
     this.middlewares()
     this.routes()
   }
 
-  middlewares(){
+  middlewares() {
     this.server.use(express.json())
   }
 
-  routes(){
+  routes() {
     this.server.use(routes)
   }
 

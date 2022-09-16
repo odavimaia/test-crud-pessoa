@@ -1,11 +1,3 @@
-//Métodos: index, show, update, store, destroy
-/*
-index: listagem de perfis;
-store: criar um perfil;
-show: listar um unico usuário;
-update: alterar um usuario;
-destroy: deletar usuario;
-*/
 import User from '../models/User'
 import UserSchema from '../schemas/UserSchema'
 
@@ -20,18 +12,16 @@ class UserController {
   }
 
   async store(req, res) {
-    const { name, cpf, birthday } = req.body
-
-    if (!(await UserSchema.isValid(req.body))) {
-      return res.status(400).send({ message: 'Preencha todos os campos!'})
-    }
+    const { name, cpf, birthDate } = req.body
 
     let user = await User.findOne({ cpf })
     if (!user) {
-      user = await User.create({ name, cpf, birthday })
+      user = await User.create({ name, cpf, birthDate })
+      return res.status(200).json({ message: 'Usuário cadastrado com sucesso!' })
     }
 
-    return res.status(200).json({ message: "Usuário cadastrado com sucesso!" })
+    return res.status(400).json({ message: 'O usuário já está cadastrado!' })
+
   }
 
   async destroy(req, res) {
@@ -43,5 +33,6 @@ class UserController {
   }
 
 }
+
 
 export default new UserController()

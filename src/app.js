@@ -7,7 +7,7 @@ class App {
   constructor() {
     this.server = express()
 
-    mongoose.connect('sua chave de acesso ao mongoDB aqui', {
+    mongoose.connect('Sua chave de acesso ao bd aqui', {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
